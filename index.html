@@ -14,31 +14,189 @@
         }
         
         body {
-            background-color: #f5f9f7;
+            background-color: #0a1f0a;
             color: #333;
             line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Лесной фон */
+        .forest-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .forest-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Дальний лес (самые темные деревья) */
+        .far-forest {
+            background: linear-gradient(to bottom, #051905 0%, #0a2a0a 30%, #0d350d 70%, #0f3e0f 100%);
+        }
+        
+        /* Средний лес (средние деревья) */
+        .mid-forest {
+            background: radial-gradient(ellipse at center, transparent 60%, rgba(10, 40, 10, 0.8) 100%);
+        }
+        
+        /* Ближний лес (передний план) */
+        .near-forest {
+            background: radial-gradient(ellipse at center, transparent 70%, rgba(15, 50, 15, 0.9) 100%);
+        }
+        
+        /* Анимированные деревья */
+        .tree {
+            position: absolute;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 100px solid #0a2a0a;
+            filter: brightness(0.8);
+        }
+        
+        .tree:nth-child(odd) {
+            border-bottom-color: #0d350d;
+        }
+        
+        .tree.trunk {
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 30px solid #3d2b1f;
+            width: 0;
+            height: 0;
+        }
+        
+        /* Анимированные листья/иголки */
+        .leaf {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #1a5c1a;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: leafFloat 15s infinite linear;
+        }
+        
+        /* Птицы в лесу */
+        .bird {
+            position: absolute;
+            color: #2d5a27;
+            font-size: 1.5rem;
+            opacity: 0.6;
+            animation: birdFly 25s infinite linear;
+        }
+        
+        /* Анимации */
+        @keyframes leafFloat {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(0) rotate(360deg);
+                opacity: 0.7;
+            }
+        }
+        
+        @keyframes birdFly {
+            0% {
+                transform: translateX(-100px) translateY(0);
+            }
+            25% {
+                transform: translateX(25vw) translateY(-20px);
+            }
+            50% {
+                transform: translateX(50vw) translateY(0);
+            }
+            75% {
+                transform: translateX(75vw) translateY(20px);
+            }
+            100% {
+                transform: translateX(calc(100vw + 100px)) translateY(0);
+            }
+        }
+        
+        @keyframes treeSway {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(1deg);
+            }
+        }
+        
+        /* Луна в небе */
+        .moon {
+            position: fixed;
+            top: 5%;
+            right: 10%;
+            width: 80px;
+            height: 80px;
+            background-color: #f5f5dc;
+            border-radius: 50%;
+            box-shadow: 0 0 40px rgba(245, 245, 220, 0.4);
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        /* Звезды */
+        .star {
+            position: fixed;
+            background-color: white;
+            border-radius: 50%;
+            animation: starTwinkle 4s infinite alternate;
+            z-index: -1;
+        }
+        
+        @keyframes starTwinkle {
+            0% {
+                opacity: 0.2;
+            }
+            100% {
+                opacity: 0.8;
+            }
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            position: relative;
+            z-index: 1;
         }
         
         header {
-            background: linear-gradient(135deg, #2d5a27 0%, #3e7c34 100%);
+            background: linear-gradient(135deg, rgba(45, 90, 39, 0.9) 0%, rgba(62, 124, 52, 0.9) 100%);
             color: white;
             padding: 40px 0;
             text-align: center;
             border-radius: 0 0 20px 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             margin-bottom: 30px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         h1 {
             font-size: 2.8rem;
             margin-bottom: 15px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            color: #e9f4e9;
         }
         
         .subtitle {
@@ -49,11 +207,13 @@
         }
         
         .nav-container {
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.92);
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             padding: 20px;
             margin-bottom: 30px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .nav-buttons {
@@ -82,7 +242,7 @@
             background-color: #2d5a27;
             color: white;
             transform: translateY(-3px);
-            box-shadow: 0 7px 10px rgba(45, 90, 39, 0.2);
+            box-shadow: 0 7px 10px rgba(45, 90, 39, 0.3);
         }
         
         .nav-btn.active {
@@ -91,11 +251,13 @@
         }
         
         .content {
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             padding: 40px;
             margin-bottom: 30px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .section {
@@ -141,7 +303,7 @@
         }
         
         .highlight {
-            background-color: #e9f4e9;
+            background-color: rgba(233, 244, 233, 0.8);
             padding: 25px;
             border-radius: 10px;
             margin: 25px 0;
@@ -156,17 +318,18 @@
         }
         
         .card {
-            background-color: #f9fdf9;
+            background-color: rgba(249, 253, 249, 0.9);
             border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #e0eadf;
+            border: 1px solid rgba(224, 234, 223, 0.8);
         }
         
         .card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            background-color: rgba(249, 253, 249, 1);
         }
         
         .card-icon {
@@ -226,6 +389,7 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+            background-color: white;
         }
         
         th {
@@ -256,12 +420,12 @@
         }
         
         .stat-box {
-            background: linear-gradient(135deg, #3e7c34 0%, #2d5a27 100%);
+            background: linear-gradient(135deg, rgba(62, 124, 52, 0.9) 0%, rgba(45, 90, 39, 0.9) 100%);
             color: white;
             padding: 25px 20px;
             border-radius: 15px;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(45, 90, 39, 0.2);
+            box-shadow: 0 5px 15px rgba(45, 90, 39, 0.3);
         }
         
         .stat-number {
@@ -275,12 +439,14 @@
         }
         
         .footer {
-            background-color: #2d5a27;
+            background-color: rgba(45, 90, 39, 0.9);
             color: white;
             padding: 30px 0;
             text-align: center;
             border-radius: 20px 20px 0 0;
             margin-top: 40px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .footer p {
@@ -319,7 +485,7 @@
             justify-content: center;
             font-size: 1.5rem;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
             z-index: 100;
             opacity: 0;
@@ -334,6 +500,26 @@
         .back-to-top:hover {
             background-color: #3e7c34;
             transform: translateY(-5px);
+        }
+        
+        /* Лучи света через деревья */
+        .light-ray {
+            position: fixed;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 200, 0.2), transparent);
+            top: 0;
+            animation: rayMove 20s infinite linear;
+            z-index: 0;
+        }
+        
+        @keyframes rayMove {
+            0%, 100% {
+                opacity: 0.2;
+            }
+            50% {
+                opacity: 0.4;
+            }
         }
         
         @media (max-width: 768px) {
@@ -360,10 +546,40 @@
             .image-gallery {
                 grid-template-columns: 1fr;
             }
+            
+            /* Упрощаем анимации на мобильных */
+            .leaf, .bird {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Лесной фон -->
+    <div class="forest-background">
+        <div class="forest-layer far-forest"></div>
+        <div class="forest-layer mid-forest"></div>
+        <div class="forest-layer near-forest"></div>
+        
+        <!-- Луна -->
+        <div class="moon"></div>
+        
+        <!-- Звезды -->
+        <div class="stars-container"></div>
+        
+        <!-- Анимированные деревья -->
+        <div class="trees-container"></div>
+        
+        <!-- Лучи света -->
+        <div class="light-rays-container"></div>
+        
+        <!-- Падающие листья -->
+        <div class="leaves-container"></div>
+        
+        <!-- Птицы -->
+        <div class="birds-container"></div>
+    </div>
+    
     <div class="progress-bar" id="progressBar"></div>
     
     <header>
@@ -862,6 +1078,85 @@
     </div>
 
     <script>
+        // Создание лесного фона
+        function createForestBackground() {
+            const treesContainer = document.querySelector('.trees-container');
+            const leavesContainer = document.querySelector('.leaves-container');
+            const starsContainer = document.querySelector('.stars-container');
+            const birdsContainer = document.querySelector('.birds-container');
+            const raysContainer = document.querySelector('.light-rays-container');
+            
+            // Создаем деревья
+            for (let i = 0; i < 25; i++) {
+                const tree = document.createElement('div');
+                tree.className = 'tree';
+                tree.style.left = `${Math.random() * 100}%`;
+                tree.style.bottom = `${Math.random() * 30}%`;
+                tree.style.height = `${70 + Math.random() * 80}px`;
+                tree.style.borderBottomWidth = `${80 + Math.random() * 60}px`;
+                tree.style.borderLeftWidth = `${10 + Math.random() * 10}px`;
+                tree.style.borderRightWidth = `${10 + Math.random() * 10}px`;
+                tree.style.animation = `treeSway ${15 + Math.random() * 10}s infinite ease-in-out`;
+                tree.style.animationDelay = `${Math.random() * 5}s`;
+                treesContainer.appendChild(tree);
+                
+                // Ствол дерева
+                const trunk = document.createElement('div');
+                trunk.className = 'tree trunk';
+                trunk.style.left = `${parseFloat(tree.style.left) + 0.5}%`;
+                trunk.style.bottom = '0%';
+                treesContainer.appendChild(trunk);
+            }
+            
+            // Создаем падающие листья
+            for (let i = 0; i < 30; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                leaf.style.left = `${Math.random() * 100}%`;
+                leaf.style.top = `${-10 - Math.random() * 20}%`;
+                leaf.style.backgroundColor = `hsl(${100 + Math.random() * 40}, 60%, 30%)`;
+                leaf.style.width = `${5 + Math.random() * 10}px`;
+                leaf.style.height = leaf.style.width;
+                leaf.style.animationDuration = `${10 + Math.random() * 20}s`;
+                leaf.style.animationDelay = `${Math.random() * 15}s`;
+                leavesContainer.appendChild(leaf);
+            }
+            
+            // Создаем звезды
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 30}%`;
+                star.style.width = `${1 + Math.random() * 3}px`;
+                star.style.height = star.style.width;
+                star.style.animationDelay = `${Math.random() * 4}s`;
+                starsContainer.appendChild(star);
+            }
+            
+            // Создаем птиц
+            for (let i = 0; i < 5; i++) {
+                const bird = document.createElement('div');
+                bird.className = 'bird';
+                bird.innerHTML = '<i class="fas fa-dove"></i>';
+                bird.style.left = `${-100 - Math.random() * 100}px`;
+                bird.style.top = `${10 + Math.random() * 30}%`;
+                bird.style.animationDelay = `${Math.random() * 15}s`;
+                birdsContainer.appendChild(bird);
+            }
+            
+            // Создаем лучи света
+            for (let i = 0; i < 5; i++) {
+                const ray = document.createElement('div');
+                ray.className = 'light-ray';
+                ray.style.left = `${10 + Math.random() * 80}%`;
+                ray.style.width = `${1 + Math.random() * 2}px`;
+                ray.style.animationDelay = `${Math.random() * 10}s`;
+                ray.style.opacity = `${0.1 + Math.random() * 0.2}`;
+                raysContainer.appendChild(ray);
+            }
+        }
+        
         // Навигация между разделами
         document.querySelectorAll('.nav-btn').forEach(button => {
             button.addEventListener('click', function() {
@@ -974,6 +1269,32 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Устанавливаем минимальную высоту для контента
             document.querySelector('.content').style.minHeight = window.innerHeight * 0.6 + 'px';
+            
+            // Создаем лесной фон
+            createForestBackground();
+            
+            // Периодически добавляем новые листья для анимации
+            setInterval(() => {
+                const leavesContainer = document.querySelector('.leaves-container');
+                if (leavesContainer.children.length < 40) {
+                    const leaf = document.createElement('div');
+                    leaf.className = 'leaf';
+                    leaf.style.left = `${Math.random() * 100}%`;
+                    leaf.style.top = `${-10 - Math.random() * 20}%`;
+                    leaf.style.backgroundColor = `hsl(${100 + Math.random() * 40}, 60%, 30%)`;
+                    leaf.style.width = `${5 + Math.random() * 10}px`;
+                    leaf.style.height = leaf.style.width;
+                    leaf.style.animationDuration = `${10 + Math.random() * 20}s`;
+                    leavesContainer.appendChild(leaf);
+                    
+                    // Удаляем лист после анимации
+                    setTimeout(() => {
+                        if (leaf.parentNode) {
+                            leaf.parentNode.removeChild(leaf);
+                        }
+                    }, 30000);
+                }
+            }, 2000);
         });
     </script>
 </body>
