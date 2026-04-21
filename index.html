@@ -1,1 +1,708 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>CNC-Wood Art | Изделия из дерева на ЧПУ станке</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FCF9F4;
+            color: #2B2A27;
+            scroll-behavior: smooth;
+            line-height: 1.5;
+        }
+
+        h1, h2, h3, .logo, .nav-links a, .btn, .hero-title, .section-title {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(252, 249, 244, 0.96);
+            backdrop-filter: blur(8px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #E8E0D3;
+            padding: 16px 0;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #4A3B2C;
+        }
+        .logo span {
+            font-weight: 400;
+            color: #C28A4E;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #4A3B2C;
+            transition: 0.2s;
+            font-size: 1rem;
+        }
+        .nav-links a:hover {
+            color: #C28A4E;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background: #4A3B2C;
+            color: white;
+            padding: 12px 28px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.25s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #4A3B2C;
+            color: #4A3B2C;
+        }
+        .btn-outline:hover {
+            background: #4A3B2C;
+            color: white;
+        }
+        .btn:hover {
+            background: #2D241C;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px -12px rgba(0,0,0,0.2);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0 70px;
+            background: linear-gradient(135deg, #FEFBF5 0%, #F5EDE2 100%);
+        }
+        .hero-grid {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+        .hero-content {
+            flex: 1;
+        }
+        .hero-title {
+            font-size: 3.2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: #2D241C;
+        }
+        .hero-title i {
+            color: #C28A4E;
+            font-style: normal;
+        }
+        .hero-desc {
+            font-size: 1.1rem;
+            color: #5E5242;
+            margin-bottom: 2rem;
+            max-width: 90%;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 36px;
+            box-shadow: 0 25px 35px -12px rgba(0,0,0,0.2);
+            width: 100%;
+            object-fit: cover;
+            aspect-ratio: 1 / 0.85;
+            background: #E0D3C2;
+        }
+
+        /* Section Common */
+        section {
+            padding: 80px 0;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: #2D241C;
+        }
+        .section-sub {
+            text-align: center;
+            color: #8B765A;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        /* Products Grid (4 карточки по модели из free-stl/cnc-info) */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        .product-card {
+            background: white;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 12px 24px -12px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #EDE3D6;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 32px -12px rgba(0,0,0,0.15);
+            border-color: #D4C2AE;
+        }
+        .product-image {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            display: block;
+            background: #DFD2C1;
+        }
+        .product-info {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-title {
+            font-size: 1.45rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #3E2F20;
+        }
+        .product-desc {
+            color: #6B5A48;
+            margin-bottom: 1rem;
+            line-height: 1.45;
+            flex: 1;
+        }
+        .product-specs {
+            background: #F9F4EC;
+            border-radius: 20px;
+            padding: 0.8rem 1rem;
+            margin: 0.8rem 0;
+            font-size: 0.85rem;
+        }
+        .product-specs span {
+            font-weight: 600;
+            color: #C28A4E;
+        }
+        .product-meta {
+            font-size: 0.85rem;
+            color: #8B765A;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .product-meta i {
+            color: #C28A4E;
+            width: 18px;
+        }
+        .tag {
+            background: #EDE3D6;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #4A3B2C;
+        }
+
+        /* Технология ЧПУ */
+        .tech-showcase {
+            background: #F5EDE2;
+        }
+        .tech-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .tech-text {
+            flex: 1;
+        }
+        .tech-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        .tech-text p {
+            margin-bottom: 1rem;
+            color: #5E5242;
+        }
+        .tech-icon-list {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .tech-icon-item {
+            text-align: center;
+        }
+        .tech-icon-item i {
+            font-size: 2rem;
+            color: #C28A4E;
+            margin-bottom: 0.3rem;
+        }
+        .tech-stats {
+            flex: 0.8;
+            background: white;
+            border-radius: 32px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #C28A4E;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: linear-gradient(135deg, #E8DDD0 0%, #F5EDE3 100%);
+            border-radius: 48px;
+            margin: 40px 0 60px;
+            padding: 60px 40px;
+        }
+        .form-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            align-items: center;
+        }
+        .form-info {
+            flex: 1;
+        }
+        .form-info h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #2D241C;
+        }
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .contact-detail i {
+            font-size: 1.4rem;
+            color: #4A3B2C;
+        }
+        .form-card {
+            flex: 1;
+            background: white;
+            padding: 2rem;
+            border-radius: 32px;
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.08);
+        }
+        .input-group {
+            margin-bottom: 1.2rem;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #E2D4C5;
+            border-radius: 28px;
+            font-family: 'Inter', sans-serif;
+            background: #FEFAF5;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #C28A4E;
+            box-shadow: 0 0 0 3px rgba(194,138,78,0.1);
+        }
+        textarea {
+            resize: vertical;
+            border-radius: 24px;
+        }
+        .form-card button {
+            width: 100%;
+        }
+
+        /* Footer */
+        footer {
+            background: #2D241C;
+            color: #CFC3B2;
+            padding: 48px 0 24px;
+            margin-top: 40px;
+        }
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #E7D9CA;
+        }
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: #CFC3B2;
+            text-decoration: none;
+        }
+        .social i {
+            font-size: 1.4rem;
+            margin-left: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .social i:hover {
+            color: #C28A4E;
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #4A3E2E;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 780px) {
+            .container { padding: 0 24px; }
+            .hero-title { font-size: 2.3rem; }
+            .nav-links { gap: 1rem; }
+            .hero-grid { flex-direction: column; text-align: center; }
+            .hero-desc { max-width: 100%; }
+            .hero-buttons { justify-content: center; }
+            .section-title { font-size: 2rem; }
+            .form-section { padding: 40px 24px; }
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2D241C;
+            color: #F7EBDD;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 500;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container nav-bar">
+        <div class="logo">CNC<span>WoodArt</span></div>
+        <ul class="nav-links">
+            <li><a href="#home">Главная</a></li>
+            <li><a href="#models">Модели</a></li>
+            <li><a href="#technology">Технология</a></li>
+            <li><a href="#contact">Контакты</a></li>
+        </ul>
+    </div>
+</header>
+
+<main>
+    <!-- Hero -->
+    <section id="home" class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <h1 class="hero-title">Резьба по дереву на <i>ЧПУ станке</i></h1>
+                <p class="hero-desc">Уникальные 3D-модели, готовые к фрезеровке. Воплощаем любые дизайны — от изящных рамок до объёмных панно. Работаем с массивом дуба, ореха, бука и других пород.</p>
+                <div class="hero-buttons">
+                    <a href="#models" class="btn">Смотреть модели</a>
+                    <a href="#contact" class="btn btn-outline">Заказать изделие</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://placehold.co/600x500/D4C2AE/4A3B2C?text=CNC+Wood+Art" alt="ЧПУ фрезеровка по дереву">
+            </div>
+        </div>
+    </section>
+
+    <!-- 4 Модели с сайта free-stl / cnc-info.ru -->
+    <section id="models">
+        <div class="container">
+            <h2 class="section-title">Готовые 3D-модели для ЧПУ</h2>
+            <div class="section-sub">Коллекция из каталога STL-моделей для фрезерных станков</div>
+            <div class="products-grid">
+                
+                <!-- 1. Овальная рамка (Модель 6163) -->
+                <div class="product-card">
+                    <img class="product-image" src="https://placehold.co/600x450/DFD2C1/4A3B2C?text=Овальная+рамка+CNC" alt="Овальная рамка для картин STL модель">
+                    <div class="product-info">
+                        <h3 class="product-title">Рамка овальная «Классика»</h3>
+                        <p class="product-desc">Элегантная овальная рамка с декоративным элементом в верхней части. Идеально подходит для оформления зеркал, семейных фотографий или живописных миниатюр.</p>
+                        <div class="product-specs">
+                            <span>📐 Размеры:</span> 400×160×19 мм<br>
+                            <span>🌳 Рекомендуемый материал:</span> дуб, орех, мебельный щит
+                        </div>
+                        <div class="product-meta">
+                            <i class="fas fa-microchip"></i> Формат STL <span class="tag">ArtCAM / Mach3</span>
+                            <i class="fas fa-download"></i> 63 скачивания
+                        </div>
+                        <div class="product-meta" style="margin-top: 4px;">
+                            <i class="fas fa-tree"></i> Для сосны (бюджет) или премиум-древесины
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Панно "Цветы" (Модель 5113) -->
+                <div class="product-card">
+                    <img class="product-image" src="https://placehold.co/600x450/E0D3C2/4A3B2C?text=Панно+Цветы+STL" alt="Панно Цветы 3D модель">
+                    <div class="product-info">
+                        <h3 class="product-title">Панно «Цветущий луг»</h3>
+                        <p class="product-desc">Нежное объёмное панно с изображением цветов на фоне травы в прямоугольной рамке. Преобразит интерьер гостиной или спальни, добавив природной гармонии.</p>
+                        <div class="product-specs">
+                            <span>📐 Размеры:</span> 207×390×37 мм<br>
+                            <span>🌳 Рекомендуемый материал:</span> бук, дуб, сосна, лиственница
+                        </div>
+                        <div class="product-meta">
+                            <i class="fas fa-microchip"></i> STL для ArtCAM / NC Studio <span class="tag">3D рельеф</span>
+                            <i class="fas fa-download"></i> 55 скачиваний
+                        </div>
+                        <div class="product-meta">
+                            <i class="fas fa-palette"></i> Идеально для тонировки маслом или воском
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Прямоугольная рамка "Верхний узор" (Модель 6144) -->
+                <div class="product-card">
+                    <img class="product-image" src="https://placehold.co/600x450/D9CCB8/4A3B2C?text=Рамка+прямоугольная+узор" alt="Рамка прямоугольная с узором">
+                    <div class="product-info">
+                        <h3 class="product-title">Рамка «Верхний узор»</h3>
+                        <p class="product-desc">Прямоугольная рамка с изысканным орнаментом в верхней части и узором «плетёнка» по краям. Эффектное обрамление для дипломов, вышивки или важных документов.</p>
+                        <div class="product-specs">
+                            <span>📐 Размеры:</span> 400×203×11 мм<br>
+                            <span>🌳 Рекомендуемый материал:</span> дуб, орех, мебельный щит
+                        </div>
+                        <div class="product-meta">
+                            <i class="fas fa-microchip"></i> Формат STL <span class="tag">Mach3 / NCStudio</span>
+                            <i class="fas fa-download"></i> 31 скачивание
+                        </div>
+                        <div class="product-meta">
+                            <i class="fas fa-star"></i> Сочетает строгость и барочный акцент
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Круглая рамка "Якорь" (Модель 6114) -->
+                <div class="product-card">
+                    <img class="product-image" src="https://placehold.co/600x450/D4C2AE/4A3B2C?text=Рамка+круглая+Якорь" alt="Круглая рамка Якорь STL">
+                    <div class="product-info">
+                        <h3 class="product-title">Рамка круглая «Якорь»</h3>
+                        <p class="product-desc">Оригинальная круглая рамка в виде якоря и плетёного каната. Морская тематика придаёт интерьеру характер и индивидуальность. Отличный подарок для тех, кто связан с морем.</p>
+                        <div class="product-specs">
+                            <span>📐 Размеры:</span> 400×270×21 мм<br>
+                            <span>🌳 Рекомендуемый материал:</span> лиственница, сосна, карагач
+                        </div>
+                        <div class="product-meta">
+                            <i class="fas fa-microchip"></i> STL модель <span class="tag">3D фрезеровка</span>
+                            <i class="fas fa-download"></i> 47 скачиваний
+                        </div>
+                        <div class="product-meta">
+                            <i class="fas fa-anchor"></i> Символ надежности и путешествий
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <p style="color: #8B765A; font-size: 0.9rem;">* Все модели адаптированы для работы на станках с ЧПУ (домашних и промышленных), совместимы с ArtCAM, Mach3, NC Studio. Пароль для архивов: cnc-info.ru [citation:1][citation:2][citation:3]</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Технология ЧПУ фрезеровки -->
+    <section id="technology" class="tech-showcase">
+        <div class="container">
+            <div class="tech-flex">
+                <div class="tech-text">
+                    <h3>Точность <i class="fas fa-cogs" style="color:#C28A4E"></i> и детализация</h3>
+                    <p>3D-фрезеровка на ЧПУ станке позволяет воспроизводить сложнейшие рельефы с микронной точностью. Мы работаем с массивами дерева, создавая как единичные экземпляры, так и небольшие серии. Каждая модель из каталога — это готовое решение для вашего производства или творческой мастерской.</p>
+                    <div class="tech-icon-list">
+                        <div class="tech-icon-item"><i class="fas fa-drafting-compass"></i><br>Точность до 0.1 мм</div>
+                        <div class="tech-icon-item"><i class="fas fa-layer-group"></i><br>3D рельеф любой сложности</div>
+                        <div class="tech-icon-item"><i class="fas fa-tachometer-alt"></i><br>Высокая скорость обработки</div>
+                    </div>
+                </div>
+                <div class="tech-stats">
+                    <div class="stat-number">10+</div>
+                    <div>пород древесины в работе</div>
+                    <div class="stat-number" style="margin-top: 1rem;">24/7</div>
+                    <div>поддержка 3D-моделей</div>
+                    <div class="stat-number" style="margin-top: 1rem;">300+</div>
+                    <div>готовых STL-моделей</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контактная форма и заказ -->
+    <div class="container" id="contact">
+        <div class="form-section">
+            <div class="form-grid">
+                <div class="form-info">
+                    <h3>Создадим изделие под заказ</h3>
+                    <p>Выберите любую модель из каталога или предоставьте собственный эскиз — мы подготовим управляющую программу и изготовим продукт премиального качества.</p>
+                    <div class="contact-detail"><i class="fas fa-phone-alt"></i> <span>+7 (999) 777-33-44</span></div>
+                    <div class="contact-detail"><i class="fas fa-envelope"></i> <span>cnc@woodart.ru</span></div>
+                    <div class="contact-detail"><i class="fab fa-whatsapp"></i> <span>Написать в WhatsApp</span></div>
+                </div>
+                <div class="form-card">
+                    <h3 style="margin-bottom: 1rem;">Заказать фрезеровку</h3>
+                    <form id="callbackForm">
+                        <div class="input-group"><input type="text" id="name" placeholder="Ваше имя" required></div>
+                        <div class="input-group"><input type="tel" id="phone" placeholder="Номер телефона" required></div>
+                        <div class="input-group"><textarea rows="3" id="message" placeholder="Какая модель заинтересовала? (Рамка/Панно/Свой эскиз)"></textarea></div>
+                        <button type="submit" class="btn">Отправить заявку →</button>
+                    </form>
+                    <p style="font-size: 0.75rem; margin-top: 1rem; color: #8B765A;">Ответим в течение 1 часа, подберём материал и рассчитаем стоимость</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div>
+                <div class="footer-logo">CNCWoodArt</div>
+                <p style="margin-top: 8px;">3D-фрезеровка по дереву</p>
+            </div>
+            <div class="footer-links">
+                <a href="#home">Главная</a>
+                <a href="#models">Модели</a>
+                <a href="#technology">Технология</a>
+                <a href="#contact">Контакты</a>
+            </div>
+            <div class="social">
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-telegram"></i>
+                <i class="fab fa-vk"></i>
+                <i class="fab fa-youtube"></i>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2025 CNCWoodArt — изготовление изделий из дерева на ЧПУ станке. Модели предоставлены по лицензии free-stl / cnc-info.ru
+        </div>
+    </div>
+</footer>
+
+<div id="toastMsg" class="toast-msg">Заявка отправлена! Менеджер свяжется с вами.</div>
+
+<script>
+    // Плавная навигация
+    document.querySelectorAll('.nav-links a, .hero-buttons .btn, .footer-links a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                const targetId = href.substring(1);
+                const targetElem = document.getElementById(targetId);
+                if (targetElem) {
+                    targetElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else if (targetId === 'home') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // Обработка формы
+    const form = document.getElementById('callbackForm');
+    const toast = document.getElementById('toastMsg');
+    function showMessage(text) {
+        toast.textContent = text;
+        toast.style.opacity = '1';
+        setTimeout(() => { toast.style.opacity = '0'; }, 3000);
+    }
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('name').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        if (!name || !phone) {
+            showMessage('Пожалуйста, укажите имя и номер телефона');
+            return;
+        }
+        showMessage('✅ Спасибо! Скоро свяжемся для уточнения деталей заказа.');
+        form.reset();
+    });
+
+    // Социальные иконки
+    document.querySelectorAll('.social i').forEach(icon => {
+        icon.addEventListener('click', () => showMessage('Мы в соцсетях: присоединяйтесь!'));
+    });
+
+    // Копирование контактов
+    const phoneEl = document.querySelector('.contact-detail i.fa-phone-alt')?.parentElement;
+    if(phoneEl) {
+        phoneEl.style.cursor = 'pointer';
+        phoneEl.addEventListener('click', () => {
+            navigator.clipboard?.writeText('+7 (999) 777-33-44');
+            showMessage('Номер скопирован');
+        });
+    }
+    const mailEl = document.querySelector('.contact-detail i.fa-envelope')?.parentElement;
+    if(mailEl) {
+        mailEl.style.cursor = 'pointer';
+        mailEl.addEventListener('click', () => {
+            navigator.clipboard?.writeText('cnc@woodart.ru');
+            showMessage('Email скопирован');
+        });
+    }
+</script>
+</body>
+</html>
